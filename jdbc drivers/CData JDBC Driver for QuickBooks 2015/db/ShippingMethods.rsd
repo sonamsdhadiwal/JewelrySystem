@@ -1,0 +1,64 @@
+<rsb:script xmlns:rsb="http://www.rssbus.com/ns/rsbscript/2">  
+
+  <rsb:info title="ShippingMethods" description="Create, update, delete, and query QuickBooks Shipping Methods.">
+
+    <!-- Column definitions -->
+    <attr name="ID"                         xs:type="string"       readonly="true"     key="true"          columnsize="255"      normalized="true"     other:qbxmlversion=""        other:selectcolumnname="ListID"              desc="The unique identifier of the shipping method."/>
+    <attr name="Name"                       xs:type="string"       readonly="false"    required="true"     columnsize="15"       normalized="true"     other:qbxmlversion=""        other:selectcolumnname="Name"                desc="The name of the shipping method."/>
+    <attr name="IsActive"                   xs:type="boolean"      readonly="false"    required="false"    columnsize=""         normalized="true"     other:qbxmlversion=""        other:selectcolumnname="IsActive"            desc="Boolean determining if the shipping method is active."/>
+    <attr name="EditSequence"               xs:type="string"       readonly="true"     required="false"    columnsize="16"       normalized="true"     other:qbxmlversion=""        other:selectcolumnname="EditSequence"        desc="A string indicating the revision of the shipping method."/>
+    <attr name="TimeCreated"                xs:type="datetime"     readonly="true"     required="false"    columnsize=""         normalized="true"     other:qbxmlversion=""        other:selectcolumnname="TimeCreated"         desc="The time the shipping method was created."/>
+    <attr name="TimeModified"               xs:type="datetime"     readonly="true"     required="false"    columnsize=""         normalized="true"     other:qbxmlversion=""        other:selectcolumnname="TimeModified"        desc="The last time the shipping method was modified."/>
+  
+    <!-- Psuedo-Column definitions -->
+    <input name="ActiveStatus"          desc="This pseudo column is deprecated and should no longer be used. Limits the search to active or inactive records only or all records." default="ALL" value="ALL,ACTIVE,INACTIVE,NA"/>
+    <input name="StartModifiedDate"     desc="This pseudo column is deprecated and should no longer be used. Earliest modified date to search for (in yyyy-MM-dd, MM-dd-yy, MM-dd-yyyy, MM/dd/yy, or MM/dd/yyyy format)." />
+    <input name="EndModifiedDate"       desc="This pseudo column is deprecated and should no longer be used. Latest modified date to search for (in yyyy-MM-dd, MM-dd-yy, MM-dd-yyyy, MM/dd/yy, or MM/dd/yyyy format)." />
+    <input name="NameMatch"             desc="This pseudo column is deprecated and should no longer be used. The type of match to use if specifying the name." value="CONTAINS,EXACT,STARTSWITH,ENDSWITH" />
+    <input name="Rows@Next"             desc="Identifier for the next page of results. Do not set this value manually." />
+  
+  </rsb:info>
+
+  <!-- Important table information -->  
+  <rsb:set attr="entityname"     value="ShipMethod"/>
+  <rsb:set attr="objecttype"     value="List"/>
+  <rsb:set attr="querytype"      value="OtherList"/>
+  
+<!-- Operation definitions -->
+<rsb:script method="GET">
+  <rsb:set attr="MaxResults" value="[_query.limit | def('')]"/>
+  <rsb:check attr="MaxResults">
+    <rsb:check attr="_query.orderby">
+      <rsb:throw code=500 desc="ORDER BY is not supported at this time."/>
+    </rsb:check>
+  </rsb:check>
+  <rsb:call op="quickbooksadoDesktopSearch" out="toout">
+    <rsb:push item="toout"/>
+  </rsb:call>
+</rsb:script>
+
+<rsb:script method="POST">
+  <rsb:call op="quickbooksadoDesktopAdd" out="toout">
+    <rsb:push item="toout"/>
+  </rsb:call>  
+</rsb:script>
+
+<rsb:script method="MERGE">
+  <rsb:call op="quickbooksadoDesktopUpdate" out="toout">
+    <rsb:push item="toout"/>
+  </rsb:call>  
+</rsb:script>
+
+<rsb:script method="DELETE">
+  <rsb:call op="quickbooksadoDesktopDelete" out="toout">
+    <rsb:push item="toout"/>
+  </rsb:call>  
+</rsb:script>
+
+<rsb:script method="GETDELETED">
+  <rsb:call op="quickbooksadoDesktopGetDeleted" out="toout">
+    <rsb:push item="toout"/>
+  </rsb:call>  
+</rsb:script>  
+  
+</rsb:script>

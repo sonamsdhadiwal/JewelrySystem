@@ -1,0 +1,1029 @@
+<html>
+<head>
+<link rel="stylesheet" href="style2.css">
+    <script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/A95262EE-E7CA-3D42-A3B3-B1B406D880AE/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/A95262EE-E7CA-3D42-A3B3-B1B406D880AE/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/A95262EE-E7CA-3D42-A3B3-B1B406D880AE/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/A95262EE-E7CA-3D42-A3B3-B1B406D880AE/main.js" charset="UTF-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
+    </script>
+
+    <script type="text/javascript">
+	var setting1="";
+	var sizemm1="";
+    var sizemm="";
+	   var wt = "";
+		var plcost="";
+		var lfactor="";
+		var subCost="";
+		var Asell="";
+		var Asell1="";
+		var GrossM="";
+		var Metcost1=1500;
+		var Metcost2="";
+		var MetalMarkPercent="";
+		var StoneSetting2="";
+		var StoneQty="";
+		var StoneTotalCost="";
+		var PricePerKarat1="";
+		var StoneTotalCost1="";
+		var StoneCost2="";
+		var stonesize1="";
+		var CostPerLine="";
+		//Labor
+		var laborCost1="";
+		var LaborQty1="";
+		var MetalCost1="";
+		//SubTotalCost
+		var subtotal1="";
+		var LaborCost2="";
+		//Landed
+		var MisCost="";
+		//TotalMetalCost
+		var TotalMetalCost= 00;
+		var TotalStoneCos = 00;
+		var FinalLaborCost =00;
+		
+        $(document).ready(function ()
+		{
+		      
+			$("#ItemRing").show();
+			$("#ItemBracelet").hide();
+			$("#ItemNecklace").hide();
+			$("#Thick").show();
+			$("#ProductType").change(function()
+			{
+			  if($(this).val()=="Ring")
+                {
+                   $("#ItemRing").show();
+				   $("#ItemBracelet").hide();
+				   $("#ItemNecklace").hide();				
+				}
+				else if($(this).val()=="Bracelet")
+				{
+				   $("#ItemRing").hide();
+				   $("#ItemBracelet").show();
+				   $("#ItemNecklace").hide();
+				}
+				else if($(this).val()=="Necklace")
+				{
+				   $("#ItemRing").hide();
+				   $("#ItemBracelet").hide();
+				   $("#ItemNecklace").show();
+				}
+				else
+				{
+				    $("#ItemRing").hide();
+					$("#ItemBracelet").hide();
+					$("#ItemNecklace").hide();
+				}
+			});
+			
+           
+            $("#ShowCalculations").click(function () {		
+			 GrossM=parseFloat($("#GM").val());
+				sizemm = parseFloat($("SizeMM").val());
+				//This value be used further
+				//Metcost1=parseFloat($("#MarketCost").val());	
+				StoneTotalCost=parseFloat($("#TotalCost1").val());
+				//	document.getElementById("StyleDescription").value=StyleDescr();
+				
+				subtotal1=document.getElementById("SubTotal").value=SubTotalCost();
+	         	document.getElementById("LandedCost").value = LandedCost1();
+		  //      document.getElementById("SupplierCost").value=SupplierCost1();
+         		document.getElementById("AdjustedCost").value=AdjustCost(shipCost);
+				Asell1=document.getElementById("AdjustedSell").value=AdjustSell(GrossM);
+				document.getElementById("GM").value=GrossMargin(Asell1);
+			    
+				
+			//	StyleDescr();
+        });
+		
+		//checking combo box
+	/*	 $("#MetalType").change(function(){
+        alert("The text has been changed.");
+   });*/
+		
+	/*	 $("#Submit").click(function () {
+		 alert("Hello");
+		//	event.preventDefault();
+		 $.ajax({
+			url:"C:\Users\RITURAJ\Documents\demo_text.txt",
+			method:"POST",
+			data: "name=sonam",
+			dataType:"text",
+			success:function()
+			{
+			  //   $(#MetCost).html();
+			     alert("Hello");
+			}
+		 });
+		 });*/
+		 
+		 
+		
+		$("#AddStone").click(function(event)
+		{
+		
+		   event.preventDefault();
+			//combo box stone type
+			
+			
+		var a1 = document.getElementById("StoneType").selectedIndex;
+		var a2 = document.getElementById("StoneType").options;
+		var a = a2[a1].text;
+	
+		var b = document.getElementById("StoneQuantity").value;
+		var c = document.getElementById("StoneSize").value;
+		  // var d = document.getElementById("sizemm1").value;
+		 // var g = document.getElementById("Setting").value;
+		var e = document.getElementById("PlateSize").value;
+		var f = document.getElementById("StoneSettingCost").value;
+		var h = document.getElementById("CostPerSetting").value=StoneCostPerLine(StoneQty);
+		var i = document.getElementById("PricePerKarat").value=StonePricePerKarat(StoneQty);
+	//	var j = document.getElementById("TotalCost1").value;
+		  //combo box setting type
+		var y = document.getElementById("SettingType").selectedIndex;
+		var z = document.getElementById("SettingType").options;
+		var g = z[y].text;
+	
+		//combo box sizeMM
+		var d1 = document.getElementById("SizeMM").selectedIndex;
+		var d2 = document.getElementById("SizeMM").options;
+		var d = d2[d1].text;
+	
+		StoneCost2=document.getElementById("TotalCost1").value=StoneTotCost(h,i);
+	
+	if(a.value==0 || b.length==0 || c.length==0 || d.value==0 || e.length==0 || f.length==0 || g.value==0 ) //"Select" || m_b=="Select" || m_c=="Select" || m_d=="Select" || m_e=="Select" || m_f=="Select")
+		{
+			StoneCost2=0;
+		    alert("Please fill all the required fields");
+			return 0;
+		}
+		else
+		{
+		var newrow= $('<tr> <td><input name="trStoneType" value="trStoneType" hidden="true"/> '+a+' </td>' +  
+		'<td> White</td>'+  
+		'<td> Round  </td>' + 
+		'<td><input name="trStoneQty" value='+b+' hidden="true"/>'+b+'</td>'+ 
+		'<td><input name="trStoneSize" value='+c+' hidden="true"/>'+c+'</td>'+ 
+		'<td><input name="trSizeMM" value='+d+' hidden="true"/>'+d+'</td>'+ 
+		'<td><input name="trPlateSize" value='+e+' hidden="true"/>'+e+'</td>'+
+		'<td><input name="trStoneSetting1" value='+g+' hidden="true"/>'+g+'</td>'+ 
+		'<td> <input name="trCostPerLine" value='+h+' hidden="true"/>'+h+'</td>'+ 
+		'<td> <input name="trPricePerKarat" value='+i+' hidden="true"/>'+i+'</td>'+ 
+		'<td> <input name="trTotalCost" value='+StoneCost2+' hidden="true"/>'+StoneCost2+'</td>'+ 
+		'<td> <input class="btnDelete" type="button" value="X" /> </td></tr>');
+		//alert("helllluuuuuuu");      		  
+		
+		//StoneCost2=document.getElementById("TotalCost1").val();
+		StoneCost2=parseFloat($("#TotalCost1").val());
+		TotalStoneCos= TotalStoneCos + StoneCost2;
+	//	 alert(TotalStoneCos);
+	    var TotalStoneCost1=TotalStoneCos.toFixed(2);
+		 document.getElementById("trTotalStoneCost").value=TotalStoneCost1;
+		$('#Stone1').append(newrow);
+		}
+	});
+    
+	
+	$("#AddMetal").click(function(event)
+	{	
+		   //event.preventDefault();
+			//combo box Metal Type
+			
+		var m_a1 = document.getElementById("MetalType").selectedIndex;
+		var m_a2 = document.getElementById("MetalType").options;
+		var m_a = m_a2[m_a1].text;
+		
+		//Generating Reference number
+		var Ref1 = document.getElementById("ProductType").value;
+		var Ref2 = document.getElementById("MetalType").value;
+		var Ref3 = document.getElementById("MetalColor").value;
+		var Ref4 = document.getElementById("metalContent").value;
+		var Ref5 = document.getElementById("ItemRing").value;
+		     alert(Ref1+Ref2+Ref3+Ref4 + Ref5);
+	
+	
+		//combo box of metal purity
+	    var m_b1 = document.getElementById("metalContent").selectedIndex;
+		var m_b2 = document.getElementById("metalContent").options;
+		var m_b = m_b2[m_b1].text;
+	
+		//combo box of metal color
+	    var m_c1 = document.getElementById("MetalColor").selectedIndex;
+		var m_c2 = document.getElementById("MetalColor").options;
+		var m_c = m_c2[m_c1].text;
+	    
+		//Weight in grams
+	    var m_d = document.getElementById("Weight").value;
+		
+		//Price per gram
+		var m_e = document.getElementById("pricePerGram").value;
+		  
+		//Mark up percentage
+	    var m_f = document.getElementById("MetalPercentage").value;
+		
+		//alert(Metcost1);
+		MetalCost1=document.getElementById("MetCost").value = MetalCost(Metcost1);
+		//MetalCost1.toFixed(2);
+		if((m_a).value==0 || (m_b).value==0 || (m_c).value==0 || m_d.length==0 || m_e.length==0 || m_f.length==0) //"Select" || m_b=="Select" || m_c=="Select" || m_d=="Select" || m_e=="Select" || m_f=="Select")
+		{
+		    MetalCost1=0;
+			alert("Please fill all the required fields");
+			return 0;
+		}
+		else
+		{
+		var newrow= $('<tr> <td><input name="trMetalType" value = '+ m_a+' hidden= "true"/>'+m_a+'</td>'+
+		'<td>1500</td>'+
+		'<td><input name="trMetalContent"  value='+m_b+' hidden = "true"/>'+m_b+'</td>'+
+		'<td> <input name="trMetalColor"  value='+m_c+' hidden = "true"/>'+m_c+'</td>'+
+		'<td><input name="trWeight"  value='+m_d+' hidden = "true"/>'+m_d+'</td>'+
+		'<td> <input name="trPrice"  value='+m_e+' hidden = "true"/>'+m_e+'</td>'+
+		'<td> <input name="trMetalPercent"  value='+m_f+' hidden = "true"/>'+m_f+'</td>'+
+		'<td> <input name="trMetalCost"  value='+MetalCost1+' hidden = "true"/>'+MetalCost1+'</td>'+
+		'<td> <input class="btnDelete" type="button" value="X" /></td> </tr>');
+		
+		//alert("helllluuuuuuu");    
+        MetalCost1=parseFloat($("#MetCost").val());
+		TotalMetalCost= TotalMetalCost + MetalCost1;
+	//	 alert(TotalMetalCost);
+		 document.getElementById("TotMetalCost").value=TotalMetalCost;
+				
+		  $('#MetalTable').append(newrow);
+		  
+		}
+	});
+    
+	
+	$("#AddLab").click(function(event)
+	{
+		//alert("hellohello");
+		   event.preventDefault();
+			//combo box Labor
+		var l_a1 = document.getElementById("Labor").selectedIndex;
+		var l_a2 = document.getElementById("Labor").options;
+		var l_a = l_a2[l_a1].text;
+		
+		var l_b1 = document.getElementById("LaborType").selectedIndex;
+		var l_b2 = document.getElementById("LaborType").options;
+		var l_b = l_b2[l_b1].text;
+		
+		var l_c = document.getElementById("LaborCost").value;
+		
+		var l_d = document.getElementById("LaborQty").value;
+		
+		var l_e = document.getElementById("LaborCost1").value = TotalLaborCost();
+		
+		if((l_a).value==0 || (l_b).value==0 || (l_c).length==0 || l_d.length==0) //"Select" || m_b=="Select" || m_c=="Select" || m_d=="Select" || m_e=="Select" || m_f=="Select")
+		{
+			alert("Please fill all the required fields");
+			return 0;
+		}
+		else
+		{
+		var newrow= $('<tr> <td><input name="trLabor" value='+l_a+' hidden="true"/>'+l_a+'</td>'+ 
+		'<td><input name="trLaborType" value='+l_b+' hidden="true"/>'+l_b+'</td>'+ 
+		'<td><input name="trLaborCost" value='+l_c+' hidden="true"/>'+l_c+'</td>'+ 
+		'<td><input name="trLaborQty" value='+l_d+' hidden="true"/>'+l_d+'</td>'+ 
+		'<td><input name="trTotalLaborCost" value='+l_e+' hidden="true"/>'+l_e+'</td>'+ 
+		'<td> <input class="btnDelete" type="button" value="X" /></td> </tr>');
+		 
+		 
+		  $('#LaborTable').append(newrow);
+		//  FinalLaborCost=parseFloat($("#LaborCost1").val());
+	 	FinalLaborCost= FinalLaborCost + parseFloat(l_e);
+		FinalLaborCost=FinalLaborCost.toFixed(2);
+		 document.getElementById("FinalLaborCost1").value=FinalLaborCost;
+		
+		}	
+		});
+    
+	    $("#MetalTable").on('click','.btnDelete',function(){
+	//	var MetalCost1=document.getElementById("TotMetalCost").value
+        $(this).closest('tr').remove();
+     });
+
+	
+	    $("#Stone1").on('click','.btnDelete',function(){
+		
+        $(this).closest('tr').remove();
+		
+     });
+	 
+	    $("#LaborTable").on('click','.btnDelete',function(){
+        $(this).closest('tr').remove();
+     });
+
+
+	/*fetching from db	
+	
+	function fetch_data()
+		{
+		   $.ajax({
+		   
+		   url:"",
+		   method:"POST",
+		   success:function(data)
+		   {
+			  $("#").html(data);
+		   }
+		   });
+		}*/
+    });
+	
+	
+	/*function Reference_Number()
+	{
+	    var Ref1 = document.getElementById("ProductType").value;
+		alert(Ref1);
+	}	*/
+		
+	function LandedCost1()
+	{    
+		shipCost=parseFloat(document.getElementById("ShippingCost").value);
+	    var Landed_subtotalcost= SubTotalCost();
+		if (Landed_subtotalcost==0)
+		{
+			return 0;
+		}
+		else
+		{  
+		   var Landed_tax = parseFloat(document.getElementById("TaxVariable").value);
+	    
+		   if((Landed_tax).length==0 || (shipCost).length==0)
+		   { 
+		      alert("Please fill all the required fields");
+			  return 0;
+		   }
+		   else
+		   {
+		      
+	       var l1= Landed_subtotalcost + (Landed_tax/100);
+		//   alert("Hiiiiiiiiiii");
+		 //  alert(l1);
+		   var l2 = ((shipCost/100));// * l1);
+		//   alert(l2);
+           var l3 = l2	+ l1;
+		//   alert(l3);
+		   MisCost = parseFloat(document.getElementById("MCost").value);
+		  if(MisCost.length==0)
+		   {
+		        l3=l3.toFixed(2);
+				return l3;
+		   }
+		   else
+		   {
+		   var l4 = ((MisCost /100) );//* l3);
+		   var l5 = l4 + l3;
+		   l5=l5.toFixed(2);
+	       return l5 ;
+		   }
+		//   alert(l3);
+		//   return l3;
+		   }
+		}
+	}
+	
+	function TotalLaborCost()
+	{
+	     var x,funTotalLaborCost;
+		laborCost1=parseFloat($("#LaborCost").val());
+		LaborQty1=parseFloat($("#LaborQty").val());
+		x=laborCost1 * LaborQty1;
+		funTotalLaborCost=x.toFixed(2);
+		return funTotalLaborCost;
+	}
+	
+	
+	function StoneTotCost(h,i)
+	{
+	   var funStCost=h+i;
+	   var funStTotCost=funStCost.toFixed(2);
+	    return funStTotCost; 
+	}
+	
+	function StoneCostPerLine(StoneQty)
+	{
+		stonesize1=parseFloat($("#StoneSize").val());	
+		StoneQty=parseFloat($("#StoneQuantity").val());
+	      return StoneQty * stonesize1;
+	}
+	function StonePricePerKarat(StoneQty)
+	{   
+	    StoneQty=parseFloat($("#StoneQuantity").val());
+	    StoneSetting2=parseFloat($("#StoneSettingCost").val());
+	//	alert(StoneSetting2);
+	    return StoneSetting2 * StoneQty;
+	}
+	
+	function StyleDescr()
+	{
+	  document.write("Supplier"+document.getElementById("Supplier").text);
+	}
+    
+	function MetalCost(Metcost1)
+    {
+		MetalMarkPercent=parseFloat($("#MetalPercentage").val());
+    //	alert(MetalMarkPercent);
+	     wt = parseFloat($("#Weight").val());
+	    lfactor = parseFloat($("#LossFactor").val());
+		Metcost2=parseFloat($("#metalContent").val().split(":")[1]);
+	//    Metcost2=parseFloat($("#metalContent").val());
+	    var Metcost3= Metcost1 / 31.1;
+		var Metcost4= (100 + lfactor) /100;
+		var Metcost5 = Metcost2 / 24;
+	    var Metcost6 = Metcost3 * Metcost4 * Metcost5;
+		var Metcost7 = Metcost6 * wt;
+		var Metcost8 = Metcost7 *(MetalMarkPercent / 100);
+		var Metcost9=Metcost8.toFixed(2);
+		//alert(Metcost9);
+		return Metcost9;
+		
+    }
+	
+    function SupplierCost1()
+    {
+	    plcost = parseFloat($("#PlattingCost").val());//this cost will come from table
+	//	alert(plcost);
+		var AssCost = parseFloat($("#AssemblyCost").val());
+	//	alert(AssCost);
+		var Supplier_Miscost = parseFloat($("#MCost").val());
+	//	alert(Supplier_Miscost);
+       // var SetCost = SettingCost();
+       // var PolCost = PolishCost();
+		var labcost = TotalLaborCost();
+        return plcost + Supplier_Miscost + AssCost;
+
+    }
+    function SubTotalCost()
+    {    
+	      var sub_MetalCost=document.getElementById("TotMetalCost").value;
+		  var sub_StoneCost=document.getElementById("trTotalStoneCost").value;
+		 // alert(sub_StoneCost);
+		  var sub_LaborCost= document.getElementById("FinalLaborCost1").value;
+	     return parseFloat(sub_MetalCost) + parseFloat(sub_StoneCost) + parseFloat(sub_LaborCost);
+    }
+
+	function TaxCost()
+	{
+	    return (document.getElementById("TaxVariable")/100);
+	}
+	function LandCost(shipCost)
+	{
+	   var lcost1=SubTotalCost();
+	   var lcost2=TaxCost();
+	   return lcost1*lcost2+shipCost;
+	}
+
+	function AdjustCost(shipCost)
+	{
+	   var Acost1=document.getElementById("Weight");
+	   var Acost2=document.getElementById("SupplierCost");
+	   var Acost3=document.getElementById("Tax");
+	   return ((Acost1*shipCost)+(Acost2*Acost3));
+	}
+
+	function AdjustSell(GrossM)
+	{
+	   // Asell=parseFloat($("#AdjustedSell").val());
+		if (GrossM=="")
+		{
+		   document.getElementById("GM")=Asell;
+		}
+		else
+		{
+	        Asell=GrossM+(document.getElementById("LandedCost").value);
+		}
+		return Asell;
+	}
+
+
+	function GrossMargin(Asell1)
+	{
+	    var GM1="";
+		if (Asell1=="")
+		{
+		GM1=document.getElementById("GM").value;
+		}
+		else
+		{
+	        GM1=Asell1-document.getElementById("LandedCost").value;
+		}
+		return GM1;
+	}
+
+		
+	</script>
+
+</head>
+
+<body background= grey.jpg> 
+<a href="images.html"/>
+<img src="ref_1.jpg" alt="diamondring" style="width:304px;height:228px;" align="right" />
+</a>
+<!--<div>
+<table>
+    <td>Menu</td>
+	<td>
+	   <select id="Menu">
+	   <option value="Add">Add new supplier</option>
+	</td>
+</table>
+</div>
+<br>
+-->
+<div>
+    <table>
+             <tr>
+                <td> Supplier</td>
+                <td>
+                    <select id="Supplier">
+					<option value="0">Select</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </td>
+
+                <td>
+                <td> Supplier Number</td>
+                <td><input class = "textbox" type="text" id="SupplierNumber"/></td>
+                </td>
+				
+                <td>Loss factor for vendor</td>
+                <td><input class = "textbox" type="number" id="LossFactor" /></td>
+                <td>Product Type</td>
+				
+                <td>
+                    <select id="ProductType">
+					<option value="0">Select</option>
+                        <option value="R">Ring</option>
+                        <option value="B">Bracelet</option>
+						<option value="E">Earring</option>
+                        <option value="N">Necklace</option>
+						<option value="P">Pendant</option>
+                        <option value="D">Body</option>
+						<option value="L">Collar</option>
+                        <option value="A">Parts/Accessories</option>
+                        <option value="C">Chain</option>
+                        <option value="S">Special Sets</option>
+						<option value="G">Bangle</option>
+                        <option value="F">Cuff</option>
+                        <option value="K">Ankle</option>               
+                    </select>
+                </td>
+            </tr>
+
+</table>
+</div>
+
+<div>
+<table>
+			<tr id="ItemRing">
+			    <td>ItemTypeRing</td>
+				<td>
+                    <select id="ItemTypeRing">
+					<option value="0">Select</option>
+                        <option value="A">4</option>
+                        <option value="B">4.5</option>
+						<option value="C">5</option>
+                        <option value="D">5.5</option>
+						<option value="E">6</option>
+                        <option value="F">6.5</option>
+						<option value="G">7</option>
+                        <option value="H">7.5</option>
+                        <option value="I">8</option>
+                        <option value="J">8.5</option>
+						<option value="K">9</option>
+                        <option value="L">9.5</option>
+                        <option value="M">10</option>    
+						<option value="N">10.5</option>
+                        <option value="O">11</option>
+						<option value="P">11.5</option>
+                        <option value="Q">12</option>
+						<option value="R">12.5</option>
+                        <option value="S">13</option>
+						<option value="T">13.5</option>
+                        <option value="U">14</option>
+                        <option value="V">14.5</option>
+                        <option value="W">15</option>				
+                    </select>
+                </td> 
+			</tr>
+			
+			<tr id="ItemBracelet">
+			    <td>ItemTypeBracelet</td>
+				<td>
+                    <select id="ItemTypeBracelet">
+                        <option value="0">Select</option>
+						<option value="A">5.00 - 40.0 MM</option>
+                        <option value="B">5.50 - 43.5 MM</option>
+						<option value="C">6.00 - 47.0 MM</option>
+                        <option value="D">6.25 - 49.0 MM</option>
+						<option value="E">6.50 - 51.0 MM</option>
+                        <option value="F">6.75 - 53.0 MM</option>
+						<option value="G">7.00 - 55.0 MM</option>
+                        <option value="H">7.25 - 57.0 MM</option>
+                        <option value="I">7.50 - 59.0 MM</option>
+                        <option value="J">7.75 - 61.0 MM</option>
+						<option value="K">8.00 - 63.0 MM</option>
+                        <option value="L">8.25 - 65.0 MM</option>
+                        <option value="M">8.50 - 67.0 MM</option>    
+						<option value="N">8.75 - 69.0 MM</option>
+                        <option value="O">9.00 - 71.0 MM</option>
+						<option value="P">9.50 - 75.0 MM</option>
+                        <option value="Q">10.0 - 79.0 MM</option>
+						<option value="R">11.0 - 86.0 MM</option>
+                        <option value="S">12.0 - 94.5 MM</option>
+						<option value="T">13.0 - 102 MM</option>
+                        <option value="U">SPECIAL FIT</option>
+                       </select>
+                </td> 
+			</tr>
+			
+			<tr id="ItemNecklace">
+			    <td>ItemTypeNecklace</td>
+				<td>
+                    <select id="ItemTypeNecklace">
+						<option value="0">Select</option>
+                        <option value="A">14 INCH</option>
+                        <option value="B">15 INCH</option>
+						<option value="C">16 INCH</option>
+                        <option value="D">17 INCH</option>
+						<option value="E">18 INCH</option>
+                        <option value="F">19 INCH</option>
+						<option value="G">20 INCH</option>
+                        <option value="H">21 INCH</option>
+                        <option value="I">22 INCH</option>
+                        <option value="J">23 INCH</option>
+						<option value="K">24 INCH</option>
+                        <option value="L">26 INCH</option>
+                        <option value="M">28 INCH</option>    
+						<option value="N">30 INCH</option>
+                        <option value="O">32 INCH</option>
+						<option value="P">34 INCH</option>
+                        <option value="Q">36 INCH</option>
+						<option value="R">38 INCH</option>
+                        <option value="S">40 INCH</option>
+						<option value="T">45 INCH</option>
+                        <option value="U">50 INCH</option>
+                        <option value="V">60 INCH</option>
+                        <option value="W">70 INCH</option>		
+						<option value="X">80 INCH</option>
+                        <option value="Y">100 INCH</option>
+                        <option value="Z">SPECIAL LENGTH</option>				   						
+                    </select>
+                </td> 
+			</tr>
+			<tr id="Thick">
+			 <td >Thickness</td>
+				 <td>
+                    <select id="Thickness">
+					    <option  value="0">Select</option>
+                        <option value="A">0.50 MM</option>
+                        <option value="B">0.75 MM</option>
+						<option value="C">1.00 MM</option>
+                        <option value="D">1.25 MM</option>
+						<option value="E">1.50 MM</option>
+                        <option value="F">1.75 MM</option>
+						<option value="G">2.00 MM</option>
+                        <option value="H">2.25 MM</option>
+                        <option value="I">2.50 MM</option>
+                        <option value="J">2.75 MM</option>
+						<option value="K">3.00 MM</option>
+                        <option value="L">3.25 MM</option>
+                        <option value="M">3.50 MM</option>    
+						<option value="N">3.75 MM</option>
+                        <option value="O">4.00 MM</option>
+						<option value="P">4.50 MM</option>
+                        <option value="Q">5.00 MM</option>
+						<option value="R">5.50 MM</option>
+                        <option value="S">6.00 MM</option>
+						<option value="T">7.00 MM </option>
+                        <option value="U">8.00 MM</option>
+						<option value="V">10.0 MM</option>
+						<option value="W">12.0 MM</option>
+                        <option value="X"><12.0>15.0 MM</option>
+						<option value="Y"><15.0>20.0 MM</option>
+                        <option value="Z">OVER 20 MM</option>
+                       
+                       </select>
+                </td> 
+			</tr>
+
+</table>
+</div>
+
+<br>
+<div>
+<table border="1px" id="MetalTable">
+	  <tr>
+	       
+	  <td>Metal Type </td>
+	  <td >Market value of element</td>
+	  <td>Metal Purity</td>
+	  <td>Metal color</td>
+	  <td>Weight in grams</td>
+	  <td>Price per gram </td>
+	  <td>Metal Markup Percentage</td>
+	  <td>Metal Cost  </td>
+	  <td><input type = "button" id="AddMetal" value="AddMetal" /></td>
+	   <td>Total Metal Cost</td>
+	  </tr>
+      <tr> 
+	  <td><select id="MetalType">
+						<option  value="0">Select</option>
+                        <option value="A">Gold</option>
+                        <option value="B">Silver</option>
+						<option value="C">Platinum</option>
+                        <option value="D">Stainless Steel</option>
+						<option value="E">Base</option>
+                        <option value="F">Palladium</option>
+                        <option value="G">Gold filled</option>
+                        <option value="H">Vermeil</option>
+                        <option value="I">Brass</option>
+                        <option value="J">Titanium</option>
+                    </select>
+       </td>
+	   <td></td>
+	   
+				<!--   <input class="textbox" type="text" id="MarketCost" /></td>-->
+        <td> <select id="metalContent" name="metalContent">
+                           <option value="0">Select</option>
+                           
+                           <option value='E:24'>24K</option>
+                           
+                           <option value='A:10'>10K</option>
+                           
+                           <option value='B:14'>14K</option>
+                           
+                           <option value='C:18'>18K</option>
+                           
+                           <option value='D:0.925'>0.925</option>
+                           
+                  
+            </select></td>
+	            
+	    <td><select id="MetalColor">
+						<option  value="0">Select</option>
+                        <option value="A">White</option>
+                        <option value="B">Yellow</option>
+						<option value="C">Pink/Rose</option>
+                        <option value="D">Yellow/White</option>
+						<option value="E">Pink/White</option>
+                        <option value="F">Yellow/Pink/White</option>
+                        <option value="G">Chocolate</option>
+                        <option value="H">Black</option>
+                        <option value="I">Green</option>
+						</select>
+						</td>
+						
+	  <td><input class="textbox" type="text"id="Weight"></td>
+	  <td><input class="textbox" type="text"id="pricePerGram"></td>
+	 
+	  <td><input class="textbox" type="text" id="MetalPercentage"></td>          
+      <td><input class = "textbox" type="text" id="MetCost" readonly /></td>	 
+<!--	 <td><button class="Delete" id = "MetalDelete">Delete</button></td>-->
+	  <td> </td>
+	  
+	 <td><input class="textbox" type= "text " id ="TotMetalCost" readonly /></td>
+	  </tr>
+	  
+	<!--  <tr>
+	  <td>val1</td>
+	  <td>val1</td>
+	  <td>val1</td>
+	  <td>val1</td>
+	  <td>val1</td>
+	  <td>val1</td>
+	  <td>val1</td>
+	  <td>val1</td>
+	  <td>val1</td>
+	  <td>X</td>
+	  </tr>
+	  
+	  <tr>
+	  <td>val2</td>
+	  <td>val2</td>
+	  <td>val2</td>
+	  <td>val2</td>
+	  <td>val2</td>
+	  <td>val2</td>
+	  <td>val2</td>
+	  <td>val2</td>
+	  <td>val2</td>
+	  <td>X</td>
+	  </tr>
+	  <tr>
+	  <td>val3</td>
+	  <td>val3</td>
+	  <td>val3</td>
+	  <td>val3</td>
+	  <td>val3</td>
+	  <td>val3</td>
+	  <td>val3</td>
+	   <td>val3</td>
+	     <td>val3</td>
+	  <td>X</td>
+	  </tr>
+	  <tr>
+	  <td>val4</td>
+	  <td>val4</td>
+	  <td>val4</td>
+	  <td>val4</td>
+	  <td>val4</td>
+	  <td>val4</td>
+	  <td>val4</td>
+	   <td>val4</td>
+	    <td>val4</td>
+	  <td>X</td>
+	  </tr>
+	  <tr>
+	  <td>val5</td>
+	  <td>val5</td>
+	  <td>val5</td>
+	  <td>val5</td>
+	  <td>val5</td>
+	  <td>val5</td>
+	  <td>val5</td>
+	  <td>val5</td>
+	   <td>val5</td>
+	  <td>X</td>
+	  </tr>
+	  -->
+	  </table>
+</div>
+
+
+<div>
+		<table border="1px" id="Stone1">
+	    <tr>
+		<td>Stone Type</td>
+		<td id="Color">Color</td>
+		<td id="Shape">Shape</td>
+	    <td>Quantity</td>
+		<td>Size</td>
+		 <td>Size MM</td>
+		 <td>Plate Size</td>
+		 <td > Stone Setting</td>
+		 <td>Cost Per Line </td>
+		 <td>Price Per Karat</td>
+		 <td>Total Cost</td>
+		 <td><input type="button" id="AddStone" value="Add" /></td>
+		 <td>Total stone cost</td>
+		</tr>
+		
+		<tr>
+		<td><select id="StoneType">
+		<option value="0">Select</option>
+                        <option value="R7DD">R7DD</option>
+                        <option value="2">2</option>
+                    </select>
+         </td>       
+		<td ></td>
+		<td ></td>
+	    <td><input class ="textbox" type="text" id = "StoneQuantity" /></td>
+	    <td><input class ="textbox" type="text" id = "StoneSize" /></td>
+	    <td><select id="SizeMM">
+		  <option value="0">Select</option>
+                        <option value="A">1</option>
+                        <option value="B">2</option>
+                    </select>
+		</td>
+		<td><input class= "textbox" type="text" id="PlateSize" /></td>
+		<!--id="Setting">StoneSetting-->
+		<td><select id="SettingType">
+					<option value="0">Select</option>
+                        <option value="Prong">1</option>
+                        <option value="2">2</option>
+                    </select>
+					 <input class= "textbox" type="text" id="StoneSettingCost" /> 
+                </td>
+        <td><input class="textbox" type="text" id="CostPerSetting" readonly /></td>		
+         <td>   <input class="textbox" type="text" id="PricePerKarat" readonly /></td>
+		<td><input class="textbox" type="text" id="TotalCost1" readonly /></td>
+	<!--	<td><button class="Delete" id = "StoneDelete">Delete</button></td>-->
+		<td></td>
+		<td> <input class = "textbox" type = "text"  id="trTotalStoneCost" readonly /></td>
+		</tr>
+<!--
+		<tr>
+		    <td>X</td>
+		    <td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			
+		</tr>
+		<tr>
+		    <td>X</td>
+		    <td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+			<td>X</td>
+		</tr>-->	
+	</table>
+	</div>
+	  
+<div>
+	 <table border="1px" id="LaborTable">
+	     <tr>
+		   <td>Labor</td>
+		   <td>Labor type</td>
+		   <td>Labor cost</td>
+		   <td>Quantity of labor</td>
+		   <td>Cost of Labor</td>
+		   
+	<!--	   <td><button class="Delete" id = "LaborDelete">Delete</button></td>-->
+		   <td><input type="button" id="AddLab" value="AddLabor" /></td>
+		 <td> Total cost of Labor </td>
+		 </tr>
+		 <tr>
+		 <td><select id="Labor">
+			  <option value="0">Select</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+					
+		   </td>
+<td><select id="LaborType">
+			   <option value="0">Select</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+					
+		   </td>
+<td><input class="textbox" type="text" id="LaborCost" /></td>
+<td><input class="textbox" type="text" id="LaborQty" /></td>
+<td><input class="textbox" type="text" id="LaborCost1" readonly /></td>
+<td></td>
+	<td><input class= "textbox"  type = "text" id= "FinalLaborCost1" readonly/></td>	   
+		 </tr>
+		</table>
+</div>
+	
+<div> 
+        <table>
+		<tr><td><b>Costing calculations</b></td></tr>
+			<tr>
+            <td>SubTotal Cost</td>
+            <td><input class = "textbox" type="text" id="SubTotal" readonly /></td>
+			
+                <td> tax variable </td>
+                <td><input class = "textbox" type="text" id="TaxVariable" /></td>
+                <td><input class = "textbox" type="text" id="Tax" readonly /></td>
+		  
+                <td> Shipping Cost </td>
+                <td><input class="textbox" type="text" id="ShippingCost" /></td>
+
+                <td>Miscellaneous Cost</td>
+                <td><input class = "textbox" type="text" id="MCost" /></td>
+				
+				<td>Landed Cost</td>
+            <td><input class = "textbox" type="text" id="LandedCost" readonly /></td>
+            
+                <td>Supplier Cost</td>
+                <td><input class = "textbox" type="text" id="SupplierCost" readonly /></td>
+            </tr>
+            
+            
+            </tr>
+        </table>
+        <table>
+            <template>
+                <label>Main Calculations</label>
+            </template>
+            <tr>
+                <td>Adjusted Sell</td>
+                <td> <input class="textbox" type="text" id="AdjustedSell" /></td>
+            </tr>
+
+            <tr>
+                <td>Gross Margin(%)</td>
+                <td> <input class = "textbox" type="text" id="GM" /></td>
+            </tr>
+
+            <tr>
+                <td>Unit Price</td>
+                <td> <input class = "textbox" type="text" id="UnitPrice" </td>
+            </tr>
+            
+        </table>
+		</div>
+		
+		
+		<br><br>
+       <input type="button" id="ShowCalculations" value="ShowCalculations" />
+	   <input type="button" id="Submit" value="Submit"/>
+    </body>
+</html>

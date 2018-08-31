@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/A95262EE-E7CA-3D42-A3B3-B1B406D880AE/main.js" charset="UTF-8"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
+
+</script>
+    <script>
+        $(document).ready(function () {
+            $("#we").hide();
+            //     $("#MetalType").on('change', function () {
+            $("#MetalType").change(function(){
+                if ( $(this).val()=="Gold")
+                {
+                    $("#we").show();
+                    var MarketValue = parseInt($('#MarketCost').val());
+       //             var qty = document.getElementById($("#Gold").val());
+        //            var str = E.options[E.selectedIndex].text;
+         //           var PureGold=parseInt($('#Percent').val());
+          //          var step1 = ((MarketValue * str) / (31.1 * 24));
+           //         var step2 = str - ((str / 100) * PureGold);
+            //        var step3=((str/100)*step1)+(step1*(str / 100) * PureGold);
+             //       var step4 = step3 - step1;
+                    alert(MarketValue);
+                }
+                else  {
+                    $("#we").hide();
+                }
+            });
+
+            $("#Calculate").click(function () {
+                var SettingCost =parseInt( $('#SetCost').val());
+                var PolishCost = parseInt($('#PolCost').val());
+                var PAssign = parseInt($('#PlattingAssignment').val());
+                var AssignmentCost = parseInt($('#AssignmentCost').val());
+                var LabourCost = parseInt( $('#LabourCost').val());
+                var LossPercent = parseInt($("step4").val());
+                if(SettingCost=="" || PolishCost=="" || PAssign=="" || AssignmentCost=="" || LabourCost=="" || LossPercent=="")
+                {
+                    alert("Please fill all fields");
+                }
+                var E = document.getElementById("#MetalType");
+                var S = E.options[E.selectedIndex].text;
+                if (S == "Gold")
+                {
+                    $("#we").show();
+                }
+         //       var TotalCost = SettingCost + PolishCost + PAssign + AssignmentCost + LabourCost - LossPercent;
+                //      alert(TotalCost);
+                var TotalCost = MarketValue;
+            });
+        });
+    </script>
+    </head>
+<body>
+   
+    <table style="width:100px">
+        <tr>
+            <td> SettingCost</td>
+            <td>
+                <input type="text" id="SetCost" />
+            </td>
+       </tr>
+        <tr>
+            <td>PolishCost</td>
+            <td><input type="text" id="PolCost" /></td>
+        </tr>
+        
+        <tr>
+            <td>PlattingAssignment</td>
+            <td><input type="text" id="PlattingAssignment" /></td>
+        </tr>
+
+        <tr>
+            <td>AssignmentCost</td>
+            <td><input type="text" id="AssignmentCost" /></td>
+        </tr>
+
+        <tr>
+            <td>LabourCost</td>
+            <td><input type="text" id="LabourCost" /></td>
+        </tr>
+
+        <tr>
+            <td>Loss Percent</td>
+            <td><input type="text" id="LossPercent" /></td>
+        </tr>
+        <tr>
+            <td>Type of element</td>
+            <td>
+                <select id="MetalType"  >
+                    <option value="Diamond">Diamond</option>
+                    <option value="Gold">Gold</option>
+                    <option value="Silver">Silver</option>
+                </select>
+            </td>
+
+        </tr>
+        <!--If it is gold then following elements appear-->
+
+        <tr>
+            <td >
+                Market value of element
+            </td>
+            <td><input type="text" id="MarketCost" /></td>
+        </tr>
+     
+        <tr id="we">
+
+            <td >How many karat of pure gold?</td>
+            <td>
+                <select id="Gold">
+                    <option value="10">10 kt</option>
+                    <option value="14">14 kt</option>
+                    <option value="18">18 kt</option>
+                    <option value="22">22 kt</option>
+                    <option value="24">24 kt</option>
+                </select>
+            </td>
+            <!--((MarketCost)/31.1)*(option id value/24)=x
+                if u are calculating for 10gm and loss percent set for vendor is 11per
+                then ((10/100)*11)=1.1
+                10-0.11=9.89
+                (10/100*x+x*1.1)=y
+                y-x=loss-->
+        </tr>
+        <tr id="VendorPercent">
+            <td>Amount of loss Percent set for vendor</td>
+            <td><input type="text" id="Percent" /></td>
+        </tr>
+        <tr>
+            <td>Total Cost</td>
+            <td><input type="text" id="TotalCost" /></td>
+        </tr>
+</table>
+    <input type="button" id="Calculate" value="Calculate Cost" />
+    
+</body>
+</html>

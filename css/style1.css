@@ -1,0 +1,73 @@
+body {
+    background-color: lightblue;
+	}
+a {
+	font-family: "Verdana"
+}
+
+h1 {
+	font-family: "Copperplate Gothic"
+}
+
+iframe {
+  
+  margin-bottom: 30px;
+width: 90%;
+height: 560px;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+
+  -moz-box-shadow: 4px 4px 14px #000;
+  -webkit-box-shadow: 4px 4px 14px #000;
+  box-shadow: 4px 4px 14px #000;
+
+  filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=.2);
+  
+  }
+
+#div_a {
+margin-top: 20px;
+  width: 110px;
+height: 324px;
+
+border: 1px rgb(89,89,89) outset;
+
+padding: 6px;
+
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+  
+  }
+  
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}

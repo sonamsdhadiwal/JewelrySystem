@@ -1,0 +1,494 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/A95262EE-E7CA-3D42-A3B3-B1B406D880AE/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/A95262EE-E7CA-3D42-A3B3-B1B406D880AE/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.scr.kaspersky-labs.com/A95262EE-E7CA-3D42-A3B3-B1B406D880AE/main.js" charset="UTF-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js">
+    </script>
+
+    <script type="text/javascript">
+        var wt = "";
+		var plcost="";
+		var lfactor="";
+		var subCost="";
+		var shipCost="";
+		var Tax1="";
+		var Asell="";
+		var GrossM="";
+		var Metcost1="";
+		var Metcost2="";
+		var MetalMarkPercent="";
+        $(document).ready(function ()
+		{
+			$("#ItemRing").hide();
+			$("#ItemBracelet").hide();
+			$("#ItemNecklace").hide();
+			$("#Thick").show();
+		//	alert("hello");
+			$("#ProductType").change(function()
+			{
+			  //  alert("hello");
+              //  if ($("#ProductType ").find("option:selected").text()=="R")
+			  if($(this).val()=="Ring")
+                {
+					//alert("hello");
+                   $("#ItemRing").show();
+				   $("#ItemBracelet").hide();
+				   $("#ItemNecklace").hide();				
+				}
+				else if($(this).val()=="Bracelet")
+				{
+				   $("#ItemRing").hide();
+				   $("#ItemBracelet").show();
+				   $("#ItemNecklace").hide();
+				}
+				else if($(this).val()=="Necklace")
+				{
+				   $("#ItemRing").hide();
+				   $("#ItemBracelet").hide();
+				   $("#ItemNecklace").show();
+				}
+				else
+				{
+				    $("#ItemRing").hide();
+					$("#ItemBracelet").hide();
+					$("#ItemNecklace").hide();
+				}
+			});
+			
+            var MisCost = parseInt($("#MCost").val());
+            var AssCost = parseInt($("#AssemblyCost").val());
+            $("#submit").click(function () {
+                wt = parseInt($("#Weight").val());
+				plcost = parseInt($("#PlattingCost").val());
+                lfactor = parseInt($("#LossFactor").val());
+				shipCost=parseInt($("#ShippingCost").val());
+				Tax1=parseInt($("#TaxVariable").val());
+				Asell=parseInt($("#AdjustedSell").val());
+				GrossM=parseInt($("GM").val());
+				
+				//Metcost1 used in metal cost calculation
+				Metcost1=parseInt($("#MarketCost").val());
+				Metcost2=parseInt($("#Gold").val());
+				MetalMarkPercent=parseInt($("#MetalPercentage").val());
+                //alert(wt+lfactor);
+			//	document.getElementById("StyleDescription").value=StyleDescr();
+                document.getElementById("MetCost").value = MetalCost(Metcost1,Metcost2,wt,lfactor,MetalMarkPercent);
+		//      document.getElementById("SupplierCost").value=SupplierCost(plcost,MisCost,AssCost);
+         //     document.getElementById("SubTotal").value=SubTotalCost();
+		        document.getElementById("Tax").value=(TaxCost() /100);
+				document.getElementById("LandedCost").value=LandCost(shipCost);
+				document.getElementById("AdjustedCost").value=AdjustCost(shipCost);
+				document.getElementById("AdjustedSell").value=AdjustSell(GM);
+				document.getElementById("GM").value=GrossMargin(Asell,AdjustedCost);
+			//	StyleDescr();
+        });
+    });
+	
+	function AddSupplier()
+	{
+	   
+	}
+	function StyleDescr()
+	{
+	  document.write("Supplier"+document.getElementById("Supplier").text);
+	}
+    function MetalCost(Metcost1,Metcost2,wt,lfactor,MetalMarkPercent)
+    {
+	    var Metcost3= Metcost1 / 31.1;
+		var Metcost4= (100 + lfactor) /100;
+		var Metcost5 = Metcost2 / 24;
+	    var Metcost6 = Metcost3 * Metcost4 * Metcost5;
+		var Metcost7 = Metcost6 * wt;
+		return Metcost7 *(MetalMarkPercent / 100);
+    }
+    function SupplierCost(plcost,MisCost,AssCost)
+    {
+        var SetCost = SettingCost();
+        var PolCost = PolishCost();
+        return SetCost + PolCost + plcost+MisCost+AssCost;
+
+    }
+    function SubTotalCost()
+    {
+        var cost1=document.getElementById("MetCost").value;
+		//var cost2=stonecost
+		var cost3=document.getElementById("SupplierCost").value;
+		return (cost1+cost3);//+cost2
+    }
+
+	function TaxCost()
+	{
+	    return (document.getElementById("TaxVariable")/100);
+	}
+	function LandCost(shipCost)
+	{
+	   var lcost1=SubTotalCost();
+	   var lcost2=TaxCost();
+	   return lcost1*lcost2+shipCost;
+	}
+
+	function AdjustCost(shipCost)
+	{
+	   var Acost1=document.getElementById("Weight");
+	   var Acost2=document.getElementById("SupplierCost");
+	   var Acost3=document.getElementById("Tax");
+	   return ((Acost1*shipCost)+(Acost2*Acost3));
+	}
+
+	function AdjustSell(GM)
+	{
+	    var Asell1="";
+		if (GM=="")
+		{
+		Asell1=document.getElementById("AdjustedSell").value;
+		}
+		else
+		{
+	        Asell1=GM*AdjustedCost+(document.getElementById("LandedCost").value);
+		}
+		return Asell1;
+	}
+
+
+	function GrossMargin(Asell,AdjustedCost)
+	{
+	    var GM1="";
+		if (Asell=="")
+		{
+		GM1=document.getElementById("GM").value;
+		}
+		else
+		{
+	        GM1=(Asell-document.getElementById("LandedCost").value)/AdjustedCost;
+		}
+		return GM1;
+	}
+
+
+    </script>
+    <body>	
+    <table>
+            <tr>
+                <td> Supplier</td>
+                <td>
+                    <select id="Supplier">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </td>
+
+                <td>
+                <td> Supplier Number</td>
+                <td><input type="text" id="SupplierNumber"/></td>
+                </td>
+
+                <td>Product Type</td>
+                <td>
+                    <select id="ProductType">
+                        <option value="Ring">Ring</option>
+                        <option value="Bracelet">Bracelet</option>
+						<option value="Earring">Earring</option>
+                        <option value="Necklace">Necklace</option>
+						<option value="Pendant">Pendant</option>
+                        <option value="D">Body</option>
+						<option value="L">Collar</option>
+                        <option value="A">Parts/Accessories</option>
+                        <option value="C">Chain</option>
+                        <option value="S">Special Sets</option>
+						<option value="G">Bangle</option>
+                        <option value="F">Cuff</option>
+                        <option value="K">Ankle</option>               
+                    </select>
+                </td>
+            </tr>
+
+			<tr id="ItemRing">
+			    <td>ItemTypeRing</td>
+				<td>
+                    <select id="ItemTypeRing">
+                        <option value="A">4</option>
+                        <option value="B">4.5</option>
+						<option value="C">5</option>
+                        <option value="D">5.5</option>
+						<option value="E">6</option>
+                        <option value="F">6.5</option>
+						<option value="G">7</option>
+                        <option value="H">7.5</option>
+                        <option value="I">8</option>
+                        <option value="J">8.5</option>
+						<option value="K">9</option>
+                        <option value="L">9.5</option>
+                        <option value="M">10</option>    
+						<option value="N">10.5</option>
+                        <option value="O">11</option>
+						<option value="P">11.5</option>
+                        <option value="Q">12</option>
+						<option value="R">12.5</option>
+                        <option value="S">13</option>
+						<option value="T">13.5</option>
+                        <option value="U">14</option>
+                        <option value="V">14.5</option>
+                        <option value="W">15</option>				
+                    </select>
+                </td> 
+			</tr>
+			
+			<tr id="ItemBracelet">
+			    <td>ItemTypeBracelet</td>
+				<td>
+                    <select id="ItemTypeBracelet">
+                        <option value="A">5.00 - 40.0 MM</option>
+                        <option value="B">5.50 - 43.5 MM</option>
+						<option value="C">6.00 - 47.0 MM</option>
+                        <option value="D">6.25 - 49.0 MM</option>
+						<option value="E">6.50 - 51.0 MM</option>
+                        <option value="F">6.75 - 53.0 MM</option>
+						<option value="G">7.00 - 55.0 MM</option>
+                        <option value="H">7.25 - 57.0 MM</option>
+                        <option value="I">7.50 - 59.0 MM</option>
+                        <option value="J">7.75 - 61.0 MM</option>
+						<option value="K">8.00 - 63.0 MM</option>
+                        <option value="L">8.25 - 65.0 MM</option>
+                        <option value="M">8.50 - 67.0 MM</option>    
+						<option value="N">8.75 - 69.0 MM</option>
+                        <option value="O">9.00 - 71.0 MM</option>
+						<option value="P">9.50 - 75.0 MM</option>
+                        <option value="Q">10.0 - 79.0 MM</option>
+						<option value="R">11.0 - 86.0 MM</option>
+                        <option value="S">12.0 - 94.5 MM</option>
+						<option value="T">13.0 - 102 MM</option>
+                        <option value="U">SPECIAL FIT</option>
+                       </select>
+                </td> 
+			</tr>
+			
+			<tr id="ItemNecklace">
+			    <td>ItemTypeNecklace</td>
+				<td>
+                    <select id="ItemTypeNecklace">
+                        <option value="A">14 INCH</option>
+                        <option value="B">15 INCH</option>
+						<option value="C">16 INCH</option>
+                        <option value="D">17 INCH</option>
+						<option value="E">18 INCH</option>
+                        <option value="F">19 INCH</option>
+						<option value="G">20 INCH</option>
+                        <option value="H">21 INCH</option>
+                        <option value="I">22 INCH</option>
+                        <option value="J">23 INCH</option>
+						<option value="K">24 INCH</option>
+                        <option value="L">26 INCH</option>
+                        <option value="M">28 INCH</option>    
+						<option value="N">30 INCH</option>
+                        <option value="O">32 INCH</option>
+						<option value="P">34 INCH</option>
+                        <option value="Q">36 INCH</option>
+						<option value="R">38 INCH</option>
+                        <option value="S">40 INCH</option>
+						<option value="T">45 INCH</option>
+                        <option value="U">50 INCH</option>
+                        <option value="V">60 INCH</option>
+                        <option value="W">70 INCH</option>		
+						<option value="X">80 INCH</option>
+                        <option value="Y">100 INCH</option>
+                        <option value="Z">SPECIAL LENGTH</option>				   						
+                    </select>
+                </td> 
+			</tr>
+			
+			<tr id="Thick">
+			 <td>Thickness</td>
+				<td>
+                    <select id="Thickness">
+                        <option value="A">0.50 MM</option>
+                        <option value="B">0.75 MM</option>
+						<option value="C">1.00 MM</option>
+                        <option value="D">1.25 MM</option>
+						<option value="E">1.50 MM</option>
+                        <option value="F">1.75 MM</option>
+						<option value="G">2.00 MM</option>
+                        <option value="H">2.25 MM</option>
+                        <option value="I">2.50 MM</option>
+                        <option value="J">2.75 MM</option>
+						<option value="K">3.00 MM</option>
+                        <option value="L">3.25 MM</option>
+                        <option value="M">3.50 MM</option>    
+						<option value="N">3.75 MM</option>
+                        <option value="O">4.00 MM</option>
+						<option value="P">4.50 MM</option>
+                        <option value="Q">5.00 MM</option>
+						<option value="R">5.50 MM</option>
+                        <option value="S">6.00 MM</option>
+						<option value="T">7.00 MM </option>
+                        <option value="U">8.00 MM</option>
+						<option value="V">10.0 MM</option>
+						<option value="W">12.0 MM</option>
+                        <option value="X"><12.0>15.0 MM</option>
+						<option value="Y"><15.0>20.0 MM</option>
+                        <option value="Z">OVER 20 MM</option>
+                       
+                       </select>
+                </td> 
+			</tr>
+
+        </table>
+        <table style="width:100px">
+            
+            <tr>
+                <td>Metal Type</td>
+               <td>
+                    <select id="MetalType">
+                        <option value="A">Gold</option>
+                        <option value="B">Silver</option>
+						<option value="C">Platinum</option>
+                        <option value="D">Stainless Steel</option>
+						<option value="E">Base</option>
+                        <option value="F">Palladium</option>
+                        <option value="G">Gold filled</option>
+                        <option value="H">Vermeil</option>
+                        <option value="I">Brass</option>
+                        <option value="J">Titanium</option>
+                    </select>
+                </td>
+                
+                <td> Metal color</td>
+                
+                <td>
+                    <select id="MetalColor">
+                        <option value="A">White</option>
+                        <option value="B">Yellow</option>
+						<option value="C">Pink/Rose</option>
+                        <option value="D">Yellow/White</option>
+						<option value="E">Pink/White</option>
+                        <option value="F">Yellow/Pink/White</option>
+                        <option value="G">Chocolate</option>
+                        <option value="H">Black</option>
+                        <option value="I">Green</option>
+                </td>
+                
+                <td>Metal content</td>
+                <td>
+                    <select id="MetalContent">
+                         <option value="A">10K</option>
+                        <option value="B">14K</option>
+						<option value="C">18K</option>
+                        <option value="D">0.925</option>
+						<option value="E">IPG</option>
+                        <option value="F">IPR</option>
+                        <option value="G">316L</option>
+                        <option value="H">304</option>
+                        <option value="I">Rhodium White</option>
+                        <option value="J">Rhodium Black</option>
+                    </select>
+					
+            </tr>
+            </table>
+        <table>
+
+            <tr>
+                <td>Weight in grams</td>
+                <td><input type="text" id="Weight"></td>
+              
+                <td> Style Description</td>
+                <td><input type="text" id="StyleDescription"></td>
+            </tr>
+        </table>
+       
+        <table>
+            <template>
+                <label>Costing calculations</label>
+            </template>
+			<td >
+                Market value of element
+            </td>
+            <td><input class="text" id="MarketCost" /></td>
+            <td >How many karat of pure gold?</td>
+            <td>
+                <select id="Gold">
+                    <option value="10">10 kt</option>
+                    <option value="14">14 kt</option>
+                    <option value="18">18 kt</option>
+                    <option value="22">22 kt</option>
+                    <option value="24">24 kt</option>
+                </select>
+            </td>
+            
+            <tr>
+			<td>Metal Markup Percentage</td>
+                <td><input type="text" id="MetalPercentage"></td>
+              
+                <td>Metal cost</td>
+                <td><input type="text" id="MetCost" readonly /></td>
+            </tr>
+            <tr>
+                <td>Loss factor for vendor</td>
+                <td><input type="text" id="LossFactor" /></td>
+            </tr>
+            <tr>
+                <td>Stone Cost</td>
+            </tr>
+            <tr>
+                <td>Supplier Cost</td>
+                <td><input type="text" id="SupplierCost" readonly /></td>
+            </tr>
+            <tr>
+                <td>Platting Cost</td>
+                <td><input type="text" id="PlattingCost" /></td>
+            </tr>
+            <tr>
+                <td>Miscellaneous Cost</td>
+                <td><input type="text" id="MCost" /></td>
+            </tr>
+
+            <tr>
+                <td>Assembly Cost</td>
+                <td><input type="text" id="AssemblyCost" /></td>
+            </tr>
+
+            <tr>
+                <td>SubTotal Cost</td>
+                <td><input type="text" id="SubTotal" readonly /></td>
+            </tr>
+            <tr>
+                <td> tax variable </td>
+                <td><input type="text" id="TaxVariable" /></td>
+                <td><input type="text" id="Tax" readonly /></td>
+            </tr>
+
+            <tr>
+                <td> Shipping Cost </td>
+                <td><input type="text" id="ShippingCost" /></td>
+            </tr>
+
+            <td>Landed Cost</td>
+            <td><input type="text" id="LandedCost" readonly /></td>
+            </tr>
+        </table>
+        <table>
+            <template>
+                <label>Main Calculations</label>
+            </template>
+            <tr>
+                <td>Adjusted Cost</td>
+                <td> <input type="text" id="AdjustedCost" /></td>
+            </tr>
+
+            <tr>
+                <td>Adjusted Sell</td>
+                <td> <input type="text" id="AdjustedSell" /></td>
+            </tr>
+
+            <tr>
+                <td>Gross Margin(%)</td>
+                <td> <input type="text" id="GM" /></td>
+            </tr>
+
+            <tr>
+                <td>Unit Price</td>
+                <td> <input type="text" id="Unit Price" </td>
+            </tr>
+            
+        </table>
+        <input type="button" id="submit" value="Submit" />
+    </body>
+</head>
+</html>
